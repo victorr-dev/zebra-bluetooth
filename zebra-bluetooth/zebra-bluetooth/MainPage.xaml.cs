@@ -18,6 +18,13 @@ namespace zebra_bluetooth
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
+        #region Properties
+        public delegate void PrinterSelectedHandler(IDiscoveredPrinter printer);
+        public static event PrinterSelectedHandler OnPrinterSelected;
+        ObservableCollection<IDiscoveredPrinter> printers = new ObservableCollection<IDiscoveredPrinter>();
+        protected IDiscoveredPrinter ChoosenPrinter = null;
+        #endregion
+
         public MainPage()
         {
             InitializeComponent();
@@ -34,14 +41,9 @@ namespace zebra_bluetooth
             };
 
             btnPrint.Clicked += BtnPrint_Clicked;
-        }
 
-        #region Properties
-        public delegate void PrinterSelectedHandler(IDiscoveredPrinter printer);
-        public static event PrinterSelectedHandler OnPrinterSelected;
-        ObservableCollection<IDiscoveredPrinter> printers = new ObservableCollection<IDiscoveredPrinter>();
-        protected IDiscoveredPrinter ChoosenPrinter;
-        #endregion
+            txtMacAddress.Text = "48:A4:93:57:D2:47";
+        }
 
         void LstDevices_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -58,9 +60,18 @@ namespace zebra_bluetooth
             IConnection connection = null;
             try
             {
-                connection = ChoosenPrinter.Connection;
-                connection.Open();
+                if(ChoosenPrinter is null)
+                {
+                    connection = ConnectionBuilder.Current.Build("BT:" + txtMacAddress.Text);
+                }else
+                {
+                    connection = ChoosenPrinter.Connection;
+                }
+               
+                connection.Open();    
+               
                 IZebraPrinter printer = ZebraPrinterFactory.Current.GetInstance(connection);
+               
                 if ((!CheckPrinterLanguage(connection)) || (!PreCheckPrinterStatus(printer)))
                 {
 
@@ -314,4 +325,6 @@ namespace zebra_bluetooth
 
         #endregion
     }
+
+
 }

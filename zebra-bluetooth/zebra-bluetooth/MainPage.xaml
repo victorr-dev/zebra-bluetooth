@@ -15,6 +15,7 @@
                            Color="Black" />
         <Button x:Name="btnScan" Text="Scan"/>
         <Button x:Name="btnPrint" Text="Print"/>
+        <Entry x:Name="txtMacAddress" Placeholder="Insert Mac Address" />
         <ListView x:Name="lstDevices" >
 
         </ListView>

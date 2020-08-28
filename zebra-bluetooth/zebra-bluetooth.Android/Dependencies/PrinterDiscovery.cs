@@ -53,20 +53,5 @@ namespace zebra_bluetooth.Droid.Dependencies
           Manifest.Permission.AccessCoarseLocation
         };
         public const int RequestLocationId = 0;
-
-
-
-        public void FindUSBPrinters(IDiscoveryHandler handler)
-        {
-            // UsbDiscoverer.Current.FindPrinters(Android.App.Application.Context, handler);
-        }
-
-        public void RequestUSBPermission(IDiscoveredPrinterUsb printer)
-        {
-            //if (!printer.HasPermissionToCommunicate)
-            //{
-            //    printer.RequestPermission(Android.App.Application.Context);
-            //}
-        }
     }
 }
